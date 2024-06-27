@@ -46,6 +46,13 @@ const config: PlaywrightTestConfig = {
     /* Configure projects for major browsers */
     projects: [
         {
+            name: 'saucedemo',
+            use: {
+                // ...devices['Desktop Chrome'],
+                baseURL: 'https://www.saucedemo.com',
+            },
+        },
+        {
             name: 'chromium',
             use: {
                 ...devices['Desktop Chrome'],

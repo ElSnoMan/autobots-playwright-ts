@@ -1,21 +1,25 @@
-import { test, expect } from '@playwright/test'
+/*
+Start refactoring action flows into Page Objects
+    1. Create CartPage in ./pages/cart.ts 📄
+    2. Refactor the steps into the CartPage 🛒
+    3. Use CartPage in the test from ./pages/cart.ts 🛒
+*/
+
+import { test, expect } from './fixtures1-3'
+import { CartPage } from './pages/cart'
 
 
-test('Checkout', async ({ page }) => {
-    // 1. Login
-    await page.goto('https://www.saucedemo.com/');
-    await page.locator('[data-test="username"]').fill('standard_user');
-    await page.locator('[data-test="password"]').fill('secret_sauce');
-    await page.locator('[data-test="login-button"]').click();
+test('Checkout', async ({ auth, page }) => {
+    // 1. Already authed with auth fixture, so go to necessary page
+    await page.goto('/inventory.html')
 
     // 2. Add items to the cart
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
     await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
-    await page.locator('[data-test="shopping-cart-link"]').click();
-    await expect(page.locator('[data-test="title"]')).toContainText('Your Cart');
+    const cart = await new CartPage(page).goto()
 
     // 3. Start checkout
-    await page.locator('[data-test="checkout"]').click();
+    await cart.checkout()
     await page.locator('[data-test="firstName"]').fill('Spongebob');
     await page.locator('[data-test="lastName"]').fill('Squarepants');
     await page.locator('[data-test="postalCode"]').fill('84555');
