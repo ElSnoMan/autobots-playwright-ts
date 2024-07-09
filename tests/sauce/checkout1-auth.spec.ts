@@ -1,6 +1,6 @@
 /*
 Use fixtures to create a SEAM for authentication and page navigation
-    1. Add saucedemo project in tsconfig.json 🥫
+    1. Add saucedemo project in playwright.config.ts 🥫
     2. Create auth fixture in ./fixtures1-3.ts 🛠
     3. Use test, expect, and auth fixture from ./fixtures1-3.ts 👀
     4. In Plawyright Extension, set the Projects to "saucedemo" 🎮

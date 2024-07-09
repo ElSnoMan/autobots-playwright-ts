@@ -3,7 +3,7 @@
 * [How to use this repo](#how-to-use-this-repo)
 * [Requirements](#requirements)
 * [Chapter 1: Start a QA Project from Scratch](#chapter-1-start-a-qa-project-from-scratch)
-* [Chapter 2: Refactoring and Fixtures for Usability](#chapter-2-refactoring-and-fixtures-for-usability)
+* [Chapter 2: Refactoring and Fixtures for Usability](#chapter-2-refactoring-to-page-objects-and-fixtures-for-usability)
 
 ## How to use this repo
 
