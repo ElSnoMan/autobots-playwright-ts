@@ -1,12 +1,23 @@
-import { test, expect } from '@playwright/test'
+/*
+Use fixtures to create a SEAM for authentication and page navigation
+    1. Add saucedemo project in playwright.config.ts 🥫
+    2. Create auth fixture in ./fixtures1-3.ts 🛠
+    3. Use test, expect, and auth fixture from ./fixtures1-3.ts 👀
+    4. In Plawyright Extension, set the Projects to "saucedemo" 🎮
+*/
+
+import { test, expect } from './fixtures1-3'
 
 
-test('Checkout', async ({ page }) => {
-    // 1. Login
-    await page.goto('https://www.saucedemo.com/');
-    await page.locator('[data-test="username"]').fill('standard_user');
-    await page.locator('[data-test="password"]').fill('secret_sauce');
-    await page.locator('[data-test="login-button"]').click();
+test("try this seam!", async ({ auth, page }) => {
+    page.goto("/checkout-complete.html")
+    await expect(page.locator('[data-test="complete-header"]')).toBeVisible()
+})
+
+
+test('Checkout', async ({ auth, page }) => {
+    // 1. Already authed with auth fixture, so go to necessary page
+    await page.goto('/inventory.html')
 
     // 2. Add items to the cart
     await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
@@ -31,4 +42,4 @@ test('Checkout', async ({ page }) => {
 
     // 5. Assert checkout complete
     await expect(page.locator('[data-test="complete-header"]')).toBeVisible();
-});
+})
