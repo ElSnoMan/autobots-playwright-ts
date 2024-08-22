@@ -4,6 +4,7 @@
 * [Requirements](#requirements)
 * [Chapter 1: Start a QA Project from Scratch](#chapter-1-start-a-qa-project-from-scratch)
 * [Chapter 2: Refactoring and Fixtures for Usability](#chapter-2-refactoring-to-page-objects-and-fixtures-for-usability)
+* [Chapter 3: Create Data-Driven UI Tests with an API](#chapter-3-create-data-driven-ui-tests-with-an-api)
 
 ## How to use this repo
 
@@ -142,7 +143,7 @@ Product Coverage (aka Test Coverage) means that you are testing everything that 
 
 In the previous chapter, we ended with our [checkout.spec.ts](tests/sauce/checkout.spec.ts) scripted test. In this chapter, we will be refactoring those steps into [Page Objects](https://playwright.dev/docs/pom) and [Fixtures](https://playwright.dev/docs/test-fixtures) that make it easier to use and maintain as our repo gets bigger and changes happen in the apps.
 
-### Follow Along
+### Chapter 2: Follow Along
 
 To show how we iteratively did our refactoring, you can see each "iteration" of the `checkout.spec.ts` file:
 
@@ -173,14 +174,14 @@ To show how we iteratively did our refactoring, you can see each "iteration" of 
 
 Before starting on these challenges, your `/tests/sauce` folder should look like this:
 
-📂 `/tests/sauce`
-    📂 features
-    📂 pages
-        📄 cart.ts
-        📄 checkout.ts
-        📄 pages.ts
-    🧪 checkout.spec.ts
-    ⛓️ fixtures.ts
+* 📂 `/tests/sauce`
+  * 📂 features
+  * 📂 pages
+    * 📄 cart.ts
+    * 📄 checkout.ts
+    * 📄 pages.ts
+  * 🧪 checkout.spec.ts
+  * ⛓️ fixtures.ts
 
 ### Challenge 1: Create the InventoryPage and use it in our test
 
@@ -198,3 +199,41 @@ Then use it in our test and get it to pass with no errors.
 ### Challenge 2: Write a new test that covers sorting products in the Inventory
 
 With your new knowledge and power, write a completely new test file that covers the different sorting scenarios on the Inventory (aka Products) page.
+
+## Chapter 3: Create Data-Driven UI Tests with an API
+
+In this chapter, our Application Under Test (AUT) will be [DemoQA.com](https://demoqa.com) since it has a frontend and an API we can use to get or set data. This opens up more advanced scenarios than the SauceDemo app we used in previous chapters:
+
+* Do API Test Automation against their endpoints (see their [Swagger Docs](https://demoqa.com/swagger))
+* Explore UI Test Automation on a different app (see their [Bookstore App](https://demoqa.com/books))
+* Get and Set data using their API to drive what happens within the UI test
+
+> 💡 We call this `"data-driven testing"` because we control the data, environment, and app state to ***test our scenarios more quickly and reliably***
+
+### Setup
+
+To start off, let's set up the project so it's isolated.
+
+1. Create a `demoqa` project in our `playwright.config.ts` file so we have things like `baseURL`
+
+    ```ts
+    {
+        name: 'demoqa',
+        use: {
+            // ...devices['Desktop Chrome'],
+            baseURL: 'https://www.demoqa.com',
+        },
+    },
+    ```
+
+2. Next, create a new `demoqa` folder under `tests` to store our relevant tests and files
+3. In VS Code, make sure to select `demoqa` as the active project in the Playwright extension
+
+### Chapter 3: Follow Along
+
+To show how we iteratively did our refactoring, you can see each "iteration" of the `checkout.spec.ts` file:
+
+1. Create an API Test to explore how to create a user with Playwright
+    * [api.spec.ts](tests/demoqa/api.spec.ts)
+
+2. TBD
