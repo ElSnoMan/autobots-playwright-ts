@@ -236,4 +236,70 @@ To show how we iteratively did our refactoring, you can see each "iteration" of 
 1. Create an API Test to explore how to create a user with Playwright
     * [api.spec.ts](tests/demoqa/api.spec.ts)
 
-2. TBD
+2. Create an API Test to explore how to authorize a user to get a token
+    * [api1-auth.spec.ts](tests/demoqa/api1-auth.spec.ts)
+
+3. Make an interface and "service" functions
+    * [api2-functions.spec.ts](tests/demoqa/api2-functions.spec.ts)
+
+4. Generate fake data with `faker.js` to avoid "already exists" errors
+    * [api3-faker-refactor.spec.ts](tests/demoqa/api3-faker-refactor.spec.ts)
+    * [services/account.ts](tests/demoqa/services/account.ts)
+
+5. Use the account service to create an authorized user and login with it in the UI
+    * [api4-ui.spec.ts](tests/demoqa/api4-ui.spec.ts)
+    * [fixtures4.ts](tests/demoqa/fixtures4.ts)
+
+6. Use the bookstore service to create an authorized user and give them some books
+    * [api5-bookstore.spec.ts](tests/demoqa/api5-bookstore.spec.ts)
+    * [services/bookstore.ts](tests/demoqa/services/bookstore.ts)
+
+7. Use everything we've learned to make a data-driven test
+    * [api6-user-with-books-in-ui.spec.ts](tests/demoqa/api6-user-with-books-in-ui.spec.ts)
+    * [fixtures6.ts](tests/demoqa/fixtures6.ts)
+
+### Challenges
+
+Now that you have the fundamentals of Data-Driven testing using APIs, feel free to make this your own! These challenges will help solidify your understanding by *applying* what you've learned. As you've seen, moving "out of playwright" requires regular programming knowledge, so it might be a good idea to take some javascript/typescript courses first.
+
+#### Challenge 1: Organize the tests
+
+The "Follow Along" is helpful, but at a company, you wouldn't see iterative files like that. For this challenge, organize the tests into UI and API folders and give things better names. For example:
+
+* 📂 `/tests/demoqa`
+  * 📂 services
+    * 📄 account.ts
+    * 📄 bookstore.ts
+  * 📂 ui
+    * 🧪 profile.spec.ts
+  * 📂 api
+    * 🧪 account.spec.ts
+    * 🧪 bookstore.spec.ts
+  * ⛓️ fixtures.ts
+
+#### Challenge 2: Create feature files and page objects
+
+This chapter highlighted how to do data-driven testing, but we skipped breaking down the app into features and scenarios 😱
+In this challenge, take the time to break down the bookstore website into features and scenarios.
+
+* Create a `/features` folder and put your markdown and `.feature` files within it
+* Create page objects in a `/pages` folder, similar to what we did in Chapter 2
+* BONUS: Write the tests to achieve 100% Product Coverage of the bookstore website!
+
+Things should still feel organized. For example:
+
+* 📂 `/tests/demoqa`
+  * 📂 features
+  * 📂 pages
+    * 📄 books.ts
+    * 📄 login.ts
+    * 📄 profile.ts
+  * 📂 services
+    * 📄 account.ts
+    * 📄 bookstore.ts
+  * 📂 ui
+    * 🧪 profile.spec.ts
+  * 📂 api
+    * 🧪 account.spec.ts
+    * 🧪 bookstore.spec.ts
+  * ⛓️ fixtures.ts

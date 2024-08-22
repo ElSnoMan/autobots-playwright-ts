@@ -13,7 +13,7 @@ and then check that the user has the books we added to them
 import { test, expect } from './fixtures6'
 import * as bookstore from './services/bookstore'
 
-test('add books to user', async ({ auth }) => {
+test('user with books can see them in their profile', async ({ auth }) => {
     const { page, user, token } = auth
 
     // 1. We already have the user, so just add books to them
