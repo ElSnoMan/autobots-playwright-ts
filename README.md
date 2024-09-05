@@ -4,6 +4,7 @@
 * [Requirements](#requirements)
 * [Chapter 1: Start a QA Project from Scratch](#chapter-1-start-a-qa-project-from-scratch)
 * [Chapter 2: Refactoring and Fixtures for Usability](#chapter-2-refactoring-to-page-objects-and-fixtures-for-usability)
+* [Chapter 3: Create Data-Driven UI Tests with an API](#chapter-3-create-data-driven-ui-tests-with-an-api)
 
 ## How to use this repo
 
@@ -142,7 +143,7 @@ Product Coverage (aka Test Coverage) means that you are testing everything that 
 
 In the previous chapter, we ended with our [checkout.spec.ts](tests/sauce/checkout.spec.ts) scripted test. In this chapter, we will be refactoring those steps into [Page Objects](https://playwright.dev/docs/pom) and [Fixtures](https://playwright.dev/docs/test-fixtures) that make it easier to use and maintain as our repo gets bigger and changes happen in the apps.
 
-### Follow Along
+### Chapter 2: Follow Along
 
 To show how we iteratively did our refactoring, you can see each "iteration" of the `checkout.spec.ts` file:
 
@@ -173,14 +174,14 @@ To show how we iteratively did our refactoring, you can see each "iteration" of 
 
 Before starting on these challenges, your `/tests/sauce` folder should look like this:
 
-📂 `/tests/sauce`
-    📂 features
-    📂 pages
-        📄 cart.ts
-        📄 checkout.ts
-        📄 pages.ts
-    🧪 checkout.spec.ts
-    ⛓️ fixtures.ts
+* 📂 `/tests/sauce`
+  * 📂 features
+  * 📂 pages
+    * 📄 cart.ts
+    * 📄 checkout.ts
+    * 📄 pages.ts
+  * 🧪 checkout.spec.ts
+  * ⛓️ fixtures.ts
 
 ### Challenge 1: Create the InventoryPage and use it in our test
 
@@ -198,3 +199,107 @@ Then use it in our test and get it to pass with no errors.
 ### Challenge 2: Write a new test that covers sorting products in the Inventory
 
 With your new knowledge and power, write a completely new test file that covers the different sorting scenarios on the Inventory (aka Products) page.
+
+## Chapter 3: Create Data-Driven UI Tests with an API
+
+In this chapter, our Application Under Test (AUT) will be [DemoQA.com](https://demoqa.com) since it has a frontend and an API we can use to get or set data. This opens up more advanced scenarios than the SauceDemo app we used in previous chapters:
+
+* Do API Test Automation against their endpoints (see their [Swagger Docs](https://demoqa.com/swagger))
+* Explore UI Test Automation on a different app (see their [Bookstore App](https://demoqa.com/books))
+* Get and Set data using their API to drive what happens within the UI test
+
+> 💡 We call this `"data-driven testing"` because we control the data, environment, and app state to ***test our scenarios more quickly and reliably***
+
+### Setup
+
+To start off, let's set up the project so it's isolated.
+
+1. Create a `demoqa` project in our `playwright.config.ts` file so we have things like `baseURL`
+
+    ```ts
+    {
+        name: 'demoqa',
+        use: {
+            // ...devices['Desktop Chrome'],
+            baseURL: 'https://www.demoqa.com',
+        },
+    },
+    ```
+
+2. Next, create a new `demoqa` folder under `tests` to store our relevant tests and files
+3. In VS Code, make sure to select `demoqa` as the active project in the Playwright extension
+
+### Chapter 3: Follow Along
+
+To show how we iteratively did our refactoring, you can see each "iteration" of the `checkout.spec.ts` file:
+
+1. Create an API Test to explore how to create a user with Playwright
+    * [api.spec.ts](tests/demoqa/api.spec.ts)
+
+2. Create an API Test to explore how to authorize a user to get a token
+    * [api1-auth.spec.ts](tests/demoqa/api1-auth.spec.ts)
+
+3. Make an interface and "service" functions
+    * [api2-functions.spec.ts](tests/demoqa/api2-functions.spec.ts)
+
+4. Generate fake data with `faker.js` to avoid "already exists" errors
+    * [api3-faker-refactor.spec.ts](tests/demoqa/api3-faker-refactor.spec.ts)
+    * [services/account.ts](tests/demoqa/services/account.ts)
+
+5. Use the account service to create an authorized user and login with it in the UI
+    * [api4-ui.spec.ts](tests/demoqa/api4-ui.spec.ts)
+    * [fixtures4.ts](tests/demoqa/fixtures4.ts)
+
+6. Use the bookstore service to create an authorized user and give them some books
+    * [api5-bookstore.spec.ts](tests/demoqa/api5-bookstore.spec.ts)
+    * [services/bookstore.ts](tests/demoqa/services/bookstore.ts)
+
+7. Use everything we've learned to make a data-driven test
+    * [api6-user-with-books-in-ui.spec.ts](tests/demoqa/api6-user-with-books-in-ui.spec.ts)
+    * [fixtures6.ts](tests/demoqa/fixtures6.ts)
+
+### Challenges
+
+Now that you have the fundamentals of Data-Driven testing using APIs, feel free to make this your own! These challenges will help solidify your understanding by *applying* what you've learned. As you've seen, moving "out of playwright" requires regular programming knowledge, so it might be a good idea to take some javascript/typescript courses first.
+
+#### Challenge 1: Organize the tests
+
+The "Follow Along" is helpful, but at a company, you wouldn't see iterative files like that. For this challenge, organize the tests into UI and API folders and give things better names. For example:
+
+* 📂 `/tests/demoqa`
+  * 📂 services
+    * 📄 account.ts
+    * 📄 bookstore.ts
+  * 📂 ui
+    * 🧪 profile.spec.ts
+  * 📂 api
+    * 🧪 account.spec.ts
+    * 🧪 bookstore.spec.ts
+  * ⛓️ fixtures.ts
+
+#### Challenge 2: Create feature files and page objects
+
+This chapter highlighted how to do data-driven testing, but we skipped breaking down the app into features and scenarios 😱
+In this challenge, take the time to break down the bookstore website into features and scenarios.
+
+* Create a `/features` folder and put your markdown and `.feature` files within it
+* Create page objects in a `/pages` folder, similar to what we did in Chapter 2
+* BONUS: Write the tests to achieve 100% Product Coverage of the bookstore website!
+
+Things should still feel organized. For example:
+
+* 📂 `/tests/demoqa`
+  * 📂 features
+  * 📂 pages
+    * 📄 books.ts
+    * 📄 login.ts
+    * 📄 profile.ts
+  * 📂 services
+    * 📄 account.ts
+    * 📄 bookstore.ts
+  * 📂 ui
+    * 🧪 profile.spec.ts
+  * 📂 api
+    * 🧪 account.spec.ts
+    * 🧪 bookstore.spec.ts
+  * ⛓️ fixtures.ts
